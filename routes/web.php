@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\SeriesController;
-use App\Models\Serie;
+use App\http\Controllers\SeasonsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,20 @@ use App\Models\Serie;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('series');
 });
-Route::get('/series', [SeriesController::class, 'index']);
-Route::get('/series/criar', [SeriesController::class, 'create']);
-Route::post('/series/salvar', [SeriesController::class, 'store']);
+
+// Route::controller(SeriesController::class)->group(function (){
+//     Route::get('/series',  'index');
+//     Route::get('/series/criar', 'create');
+//     Route::post('/series/salvar', 'store');
+
+// });
+// Route::delete('/series/destroy/{serie}', [SeriesController::class, 'destroy'])->name('series.destroy');
+// Route::put('/series/edit', [SeriesController::class, 'edit'])->name('series.edit');
+
+// Route::resource('/series', SeriesController::class)->only(['index','create','store','destroy','edit','update']);
+
+Route::resource('/series', SeriesController::class)->except(['show']);
+Route::get('/series/{series}/seasons',[SeasonsController::class, 'index'])->name('seasons.index');
+
